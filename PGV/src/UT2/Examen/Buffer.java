@@ -1,4 +1,4 @@
-package UT2.Examen;
+package UT2.a;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;

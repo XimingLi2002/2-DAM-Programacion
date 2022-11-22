@@ -1,4 +1,4 @@
-package UT2.Examen;
+package UT2.a;
 
 public class Main {
     public static void main(String[] args) {

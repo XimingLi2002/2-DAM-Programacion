@@ -1,4 +1,4 @@
-package UT2.Examen;
+package UT2.a;
 
 public interface ConsoleColors {
     // Reset

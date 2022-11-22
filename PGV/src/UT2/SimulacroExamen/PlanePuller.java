@@ -1,6 +1,6 @@
 package UT2.SimulacroExamen;
 
-public class PlanePuller implements Runnable {
+public class PlanePuller implements Runnable, ConsoleColors {
     private Airport airport;
     private Thread thread;
 
@@ -13,9 +13,9 @@ public class PlanePuller implements Runnable {
     public void run() {
         try {
             while (true) {
-                Thread.sleep((long) (Math.random() * 300));
+                Thread.sleep((long) (Math.random() * 1500));
                 if (airport.getNumberOfPlanes() >= 0) {
-                    System.out.println(airport.pullPlane().getPlaneLine() + " ya despego");
+                    System.out.println(RED_BOLD_BRIGHT + airport.pullPlane().getPlaneLine() + " ya despego" + RESET);
                 }else{
                     System.err.println("No hay aviones para despegar");
                 }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class PlanePusher implements Runnable {
     private static final String[] planeLines = new String[]{"Iberia", "Air Berlin", "Binter", "Ryanair", "Vueling", "Spanair", "Lufthansa", "Condor", "SwissAir", "Canaryfly"};
-//    private static final String[] planeLines = new String[]{"Iberia", "Air Berlin","Binter","Ryanair"};
+    //private static final String[] planeLines = new String[]{"Iberia", "Air Berlin","Binter","Ryanair"};
     private Airport airport;
     private Thread thread;
 
@@ -19,7 +19,7 @@ public class PlanePusher implements Runnable {
         try {
             while (true) {
                 int check = 0;
-                Thread.sleep((long) (Math.random() * 100));
+                Thread.sleep((long) (Math.random() * 1000));
 
                 //crea un nuevo avion con una aerolinea aleatoria
                 Plane plane = new Plane(getRandomPlaneLine());

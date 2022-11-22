@@ -1,4 +1,4 @@
-package UT2.ExamenVersionFichero;
+package UT2.SimulacroExamen;
 
 public interface ConsoleColors {
     // Reset

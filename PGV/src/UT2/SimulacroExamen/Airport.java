@@ -3,7 +3,7 @@ package UT2.SimulacroExamen;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class Airport {
+public class Airport implements ConsoleColors {
     public static ArrayList<Plane> planes = new ArrayList<>();
     public static final int MAX_CAPACITY = 50;
     private final Semaphore semaphore = new Semaphore(1);
@@ -13,8 +13,8 @@ public class Airport {
             semaphore.acquire();
             if (planes.size() < MAX_CAPACITY) {
                 planes.add(plane);
-                System.out.println(plane.getPlaneLine() + " pide desplegar");
-                System.out.println("El vuelo " + plane.getPlaneLine() + " se encuentra en la pista en la posicion " + getNumberOfPlanes());
+                System.out.println(GREEN_BOLD_BRIGHT + plane.getPlaneLine() + " pide desplegar");
+                System.out.println("El vuelo " + plane.getPlaneLine() + " se encuentra en la pista en la posicion " + getNumberOfPlanes() + RESET);
             }else{
                 System.err.println("Aeropuerto lleno");
             }

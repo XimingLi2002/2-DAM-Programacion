@@ -1,6 +1,4 @@
-package UT2.Examen;
-
-import UT2.SimulacroExamen.Airport;
+package UT2.a;
 
 public class Consumer implements Runnable, ConsoleColors{
     private Buffer buffer;
