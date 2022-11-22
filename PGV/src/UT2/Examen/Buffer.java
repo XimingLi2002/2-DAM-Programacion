@@ -1,9 +1,10 @@
-package UT2.a;
+package UT2.Examen;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import UT2.Examen.ConsoleColors;
 
-public class Buffer implements ConsoleColors{
+public class Buffer implements ConsoleColors {
     public static ArrayList<Object> objectList = new ArrayList<>();
     public static final int MAX_CAPACITY = 50;
     private final Semaphore semaphore = new Semaphore(1);

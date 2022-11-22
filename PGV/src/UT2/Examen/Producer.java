@@ -1,4 +1,4 @@
-package UT2.a;
+package UT2.Examen;
 
 public class Producer implements Runnable,ConsoleColors{
     private Buffer buffer;

@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: UT1.SimulacroExamen.Process2.src.Main
-
