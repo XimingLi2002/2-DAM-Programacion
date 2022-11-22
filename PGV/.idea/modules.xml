@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/Apartado1/Apartado1.iml" filepath="$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/Apartado1/Apartado1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Examen/Hostname/Hostname.iml" filepath="$PROJECT_DIR$/src/Examen/Hostname/Hostname.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PGV.iml" filepath="$PROJECT_DIR$/PGV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/SimulacroExamen/Process2/Process2.iml" filepath="$PROJECT_DIR$/src/SimulacroExamen/Process2/Process2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/ServiceInfo/ServiceInfo.iml" filepath="$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/ServiceInfo/ServiceInfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/Tasklist/Tasklist.iml" filepath="$PROJECT_DIR$/src/UT1/ComunicacionDeProcesos/Hijos/Tasklist/Tasklist.iml" />
+    </modules>
+  </component>
+</project>

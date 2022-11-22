@@ -1,0 +1,5 @@
+UPDATE producto SET precio = precio*valor WHERE cod_prov in (select cod_prov from proveedores where bonifica = 0)
+                                                foreign key
+                          nuevo precio
+
+                          UPDATE productos set precio = (precio*2) WHERE cod_prov in (SELECT cod_prov from proveedores where bonifica = 0)

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="micalculadora">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/UT1/ProgramacionMultiproceso/micalculadora.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

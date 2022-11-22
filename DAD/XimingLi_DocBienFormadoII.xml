@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<libros>
+    <libro id="quijote">
+        <titulo>El Quijote</titulo>
+        <!--No se ha cerrado la etiqueta autor, y
+        no puede existir 2 atributos con el mismo nombre
+        ademmás de que lo que contenga el atributo deba ir entre comillas
+        <autor nombre=cervantes nombre=cervantes> -->
+        <autor>cervantes</autor>
+        <!--o <autor nombre="cervantes"/> -->
+        <!--No puede existir el simbolo < si no se trata de una etiqueta con su correspondiente cierre
+        <descripcion>Es el m<ejor libro de cervantes.</descripcion> -->
+        <descripcion>Es el mejor libro de cervantes.</descripcion>
+        <!--Llave de cierre erróneo
+    </libro] -->
+    </libro>
+</libros>

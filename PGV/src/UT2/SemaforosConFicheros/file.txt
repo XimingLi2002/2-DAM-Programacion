@@ -1,0 +1,16 @@
+Este es el comienzo del fichero
+Writer 1 ha escrito: 1
+Writer 2 ha escrito: 1
+Writer 4 ha escrito: 1
+Writer 1 ha escrito: 2
+Writer 4 ha escrito: 2
+Writer 3 ha escrito: 1
+Writer 2 ha escrito: 2
+Writer 5 ha escrito: 1
+Writer 3 ha escrito: 2
+Writer 1 ha escrito: 3
+Writer 2 ha escrito: 3
+Writer 4 ha escrito: 3
+Writer 5 ha escrito: 2
+Writer 3 ha escrito: 3
+Writer 5 ha escrito: 3

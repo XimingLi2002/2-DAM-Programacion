@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--La etiqueta raiz ha de ser unico-->
+<documento>
+    <p>
+        Mi Primer
+        <!--El valor de los atributos debe ir entre comillas.-->
+        <destacar importancia="1">documento XML</destacar>
+    </p>
+    <p>Comienza con la etiqueta &lt;documento&gt;
+        <!--<documento&gt; no se puede abrir una nueva etiqueta y luego no cerrarla-->
+    </p>
+    <p>A continuacion colocamos un elemento sin contenido</p>
+    <!--Las etiqueta han de cerrarse siempre, en este caso la etiqueta imagen no se ha cerrado-->
+    <imagen fichero="imagen.gif"/>
+</documento>

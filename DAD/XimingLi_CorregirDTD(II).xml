@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--En el elemento ciudades en su propiedad ciudad le falta un +-->
+<!--En el elemento ciudad en su propiedad capital
+hay que añadirle una ? al final debido a que el dato puede estar vacio-->
+<!DOCTYPE ciudades [
+        <!ELEMENT ciudades (ciudad+)>
+        <!ELEMENT ciudad (nombre, capital?)>
+        <!ELEMENT nombre (#PCDATA)>
+        <!ELEMENT capital EMPTY>
+        ]>
+
+<ciudades>
+    <ciudad>
+        <nombre>Buenos Aires</nombre>
+        <capital/>
+    </ciudad>
+    <ciudad>
+        <nombre>Liverpool</nombre>
+    </ciudad>
+    <ciudad>
+        <nombre>Osaka</nombre>
+    </ciudad>
+    <ciudad>
+        <nombre>Oslo</nombre>
+        <capital/>
+    </ciudad>
+</ciudades>

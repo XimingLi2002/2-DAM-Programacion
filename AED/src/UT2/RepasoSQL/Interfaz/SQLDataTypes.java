@@ -1,0 +1,40 @@
+package UT2.RepasoSQL.Interfaz;
+
+public interface SQLDataTypes {
+    int ARRAY = 2003;
+    int BIGINT = -5;
+    int BINARY = -2;
+    int BIT = -7;
+    int BLOB = 2004;
+    int BOOLEAN = 16;
+    int CHAR = 1;
+    int CLOB = 2005;
+    int DATE = 91;
+    int DATALINK = 70;
+    int DECIMAL = 3;
+    int DISTINCT = 2001;
+    int DOUBLE = 8;
+    int FLOAT = 6;
+    int INTEGER = 4;
+    int JAVAOBJECT = 2000;
+    int LONG_VARCHAR = -16;
+    int NCHAR = -15;
+    int NCLOB = 2011;
+    int VARCHAR = 12;
+    int VARBINARY = -3;
+    int TINYINT = -6;
+    int TIMESTAMP_WITH_TIMEZONE = 2014;
+    int TIMESTAMP = 93;
+    int TIME = 92;
+    int STRUCT = 2002;
+    int SQLXML = 2009;
+    int SMALLINT = 5;
+    int ROWID = -8;
+    int REFCURSOR = 2012;
+    int REF = 2006;
+    int REAL = 7;
+    int NVARCHAR = -9;
+    int NUMERIC = 2;
+    int NULL = 0;
+    int SMAILLINT = 5;
+}
