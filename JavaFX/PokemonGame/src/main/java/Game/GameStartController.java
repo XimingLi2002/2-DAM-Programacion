@@ -18,6 +18,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameStartController implements Initializable {
@@ -89,5 +90,23 @@ public class GameStartController implements Initializable {
                 )
         );
         task.play();
+    }
+
+    //Ayuda de la app
+    @FXML
+    private Text help;
+
+    @FXML
+    private void openHelpHandler(){
+        String path = Objects.requireNonNull(this.getClass().getResource("Ayuda.pdf")).getPath();
+        path = path.substring(1);
+        path = '"'+path+'"';
+        System.out.println(path);
+
+        try {
+            new ProcessBuilder("cmd","/C",path).start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

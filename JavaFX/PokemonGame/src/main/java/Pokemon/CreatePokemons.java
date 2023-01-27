@@ -27,4 +27,8 @@ public class CreatePokemons {
         }
     }
 
+    public static void main(String[] args) {
+        new CreatePokemons();
+    }
+
 }

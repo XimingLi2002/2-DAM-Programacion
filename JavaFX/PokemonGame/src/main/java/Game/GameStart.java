@@ -9,7 +9,6 @@ import Pokemon.Pokemon;
 import java.io.*;
 import java.net.URL;
 import java.util.Objects;
-import Pokemon.CreatePokemons;
 
 public class GameStart extends Application {
 
@@ -24,7 +23,7 @@ public class GameStart extends Application {
         stage.show();
     }
     public static void main(String[] args) {
-        //new CreatePokemons();
+//        new CreatePokemons();
         //Lee el fichero pokemon.obj que contiene los objetos pokemon y lo almacena en un arrayList
         try {
             URL url = GameStart.class.getResource("Files/Pokemon.obj");
