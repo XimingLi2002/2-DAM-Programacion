@@ -12,7 +12,7 @@ public class Main {
     }
 
     private static void Apartado1() {
-        String path = "E:\\Programacion\\PGV\\src\\UT1\\ComunicacionDeProcesos\\Apartado1.jar";
+        String path = "C:\\Users\\xkiwu\\IdeaProjects\\2-DAM-Programacion\\PGV\\src\\UT1\\ComunicacionDeProcesos\\Apartado1.jar";
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", path);
             Process process = startProcess(processBuilder);
             OutputStream("Hola Mundo", process);
