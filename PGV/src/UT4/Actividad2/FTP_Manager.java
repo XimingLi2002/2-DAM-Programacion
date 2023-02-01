@@ -58,21 +58,35 @@ public class FTP_Manager {
     protected void setWorkingDirectory(String path) throws IOException {
         ftpClient.changeWorkingDirectory("/"+ path);
     }
-
+    private static ArrayList<FTPFile> fileList = new ArrayList<>();
+    private static ArrayList<String> directories = new ArrayList<>();
     protected ArrayList<FTPFile> getAllFiles(String path) throws IOException {
-        ArrayList<FTPFile> fileList = new ArrayList<>();
-        ArrayList<String> directories = new ArrayList<>();
         do {
             FTPFile[] files = this.getFiles(path);
             for (FTPFile file : files) {
+                /*
+                if (file.isDirectory()) printFormater(60, new String[]{file.getName(), "Carpeta de archivos", String.valueOf(file.getSize())});
+                else printFormater(60, new String[]{file.getName(), "Archivo", String.valueOf(file.getSize())});
+                 */
                 if (file.isDirectory()) {
                     directories.add(path + "/" + file.getName());
                 } else {
                     fileList.add(file);
                 }
             }
+            if (!directories.isEmpty()) {
+                String directory = directories.get(0);
+                directories.remove(0);
+                getAllFiles(directory);
+            }
         }while(!directories.isEmpty());
         return fileList;
     }
 
+     protected static void printFormater(int separation, String[] colums) {
+        for (int i = 0; i < colums.length - 1; i++) {
+            System.out.printf("%-" + separation + "s", colums[i]);
+        }
+        System.out.println(colums[colums.length - 1]);
+    }
 }
