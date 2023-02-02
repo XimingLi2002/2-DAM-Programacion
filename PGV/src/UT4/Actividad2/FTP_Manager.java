@@ -1,13 +1,13 @@
 package UT4.Actividad2;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FTP_Manager {
     private FTPClient ftpClient;
@@ -19,6 +19,7 @@ public class FTP_Manager {
     protected void setConnection(String ftpServer) throws IOException {
         ftpClient.connect(ftpServer);
         ftpClient.enterLocalPassiveMode();
+        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
         System.out.println(ftpClient.getReplyString());
 
         //Check if the connection has been refused
@@ -61,10 +62,10 @@ public class FTP_Manager {
         ftpClient.changeWorkingDirectory("/" + path);
     }
 
-    private static ArrayList<FTPFile> fileList = new ArrayList<>();
+    private HashMap<String, FTPFile> fileList = new HashMap<>();
     private static ArrayList<String> directories = new ArrayList<>();
 
-    protected ArrayList<FTPFile> getAllFiles(String path) throws IOException {
+    protected HashMap<String, FTPFile> getAllFiles(String path) throws IOException {
         do {
             FTPFile[] files = this.getFiles(path);
             for (FTPFile file : files) {
@@ -75,7 +76,7 @@ public class FTP_Manager {
                 if (file.isDirectory()) {
                     directories.add(path + "/" + file.getName());
                 } else {
-                    fileList.add(file);
+                    fileList.put(path + "/"+file.getName(),file);
                 }
             }
             if (!directories.isEmpty()) {
@@ -95,7 +96,7 @@ public class FTP_Manager {
     }
     public boolean makeDir(String pathName) {
         try {
-            return  ftpClient.makeDirectory(pathName);
+            return ftpClient.makeDirectory(pathName);
         } catch (IOException e) {
             return false;
         }
@@ -106,6 +107,15 @@ public class FTP_Manager {
             BufferedInputStream bi = new BufferedInputStream(new FileInputStream(localPath));
 
             return ftpClient.storeFile(destinationFilePath, bi);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public boolean downloadOneFile(String destinationLocalPath,String remoteFilePath) {
+        try {
+            BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destinationLocalPath+"/"+remoteFilePath.split("/")[remoteFilePath.split("/").length-1]));
+            return ftpClient.retrieveFile(remoteFilePath, bo);
         } catch (IOException e) {
             return false;
         }

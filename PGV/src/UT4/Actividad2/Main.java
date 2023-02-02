@@ -2,10 +2,8 @@ package UT4.Actividad2;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -19,35 +17,40 @@ public class Main implements ConsoleColors {
     private static final String FTP_SERVER = "192.168.192.190";
     private static final String username = "pgv";
     private static final String password = "pgv";
-        private final static FTP_Manager ftpManager = new FTP_Manager();
+    private final static FTP_Manager ftpManager = new FTP_Manager();
     private final static Scanner scanner = new Scanner(System.in);
-    ;
 
     public static void main(String[] args) throws SocketException, IOException {
         ftpManager.setConnection(FTP_SERVER);
         ftpManager.setLogin(username, password);
         do {
-        System.out.println("Choose an action to execute: (Enter the text between '[' y ']')");
-        System.out.println("[0] Mostrar todos los ficheros de un directorio, incluido los subdirectorios que contenga");
-        System.out.println("[1] Subir un directorio local al servidor");
-        switch (scanner.nextLine()) {
-            case "1":
-                //Clear the arrayList
-                dirFiles = new ArrayList<>();
-                getDirAllFiles(getLocalDir());
-                if (!dirFiles.isEmpty())
-                break;
-            default:
-                System.err.println("No se ha encontrado");
-        }
+            System.out.println("Choose an action to execute: (Enter the text between '[' y ']')");
+            System.out.println("[0] Mostrar todos los ficheros de un directorio, incluido los subdirectorios que contenga");
+            System.out.println("[1] Subir un directorio local al servidor");
+            switch (scanner.nextLine()) {
+                case "1":
+                    //Clear the arrayList
+                    dirFiles = new ArrayList<>();
+                    getDirAllFiles(getLocalDir());
+                    if (!dirFiles.isEmpty()) {
+                        upload();
+                    } else {
+                        System.out.println("Empty directory, nothing uploaded...");
+                    }
+                    break;
+                case "2":
+                    System.out.print(BOLD);
+                    printFormater(60, new String[]{"Nombre", "Tipo", "Tama\u00f1o", "Ruta"}); //'\u00f1' = ñ -> Para que se muestra la ñ en consola
+                    System.out.print(RESET);
+                    ftpManager.getAllFiles("").forEach((a, it) -> printFormater(60, new String[]{it.getName(), "Archivo", String.valueOf(it.getSize()), a}));
 
-        }while (!ftpManager.isConnected());
+                    ftpManager.downloadOneFile("C:\\Users\\ikill\\Documents\\2-DAM-Programacion\\PGV\\src\\UT4\\Actividad2\\", scanner.nextLine());
+                    break;
+                default:
+                    System.err.println("No se ha encontrado");
+            }
 
-        System.out.print(BOLD);
-        printFormater(60, new String[]{"Nombre", "Tipo", "Tama\u00f1o"}); //'\u00f1' = ñ -> Para que se muestra la ñ en consola
-        System.out.print(RESET);
-
-        ftpManager.getAllFiles("").forEach(it -> printFormater(60, new String[]{it.getName(), "Archivo", String.valueOf(it.getSize())}));
+        } while (!ftpManager.isConnected());
 
 
     }
@@ -85,37 +88,32 @@ public class Main implements ConsoleColors {
     }
 
     private static void upload() {
-        if (dirFiles.isEmpty()) {
+        boolean dirCreated = false;
+        do {
+            System.out.println("\nEnter a new remote directory name/path (Ex: dir2 | dir2/subdir2 ): ");
+            String newDir = scanner.nextLine();
 
-            boolean dirCreated = false;
+            if (!newDir.equals("")) {
+                dirCreated = ftpManager.makeDir(newDir);
 
-            do {
-                System.out.println("\nEnter a new remote directory name/path (Ex: dir2 | dir2/subdir2 ): ");
-                String newDir = scanner.nextLine();
+                if (dirCreated) {
+                    System.out.println("Dir " + newDir + " created!");
+                    System.out.println("\n||==========||Upload status||==========||\n");
+                    int uploadCount = 0;
 
-                if (!newDir.equals("")) {
-                    dirCreated = ftpManager.makeDir(newDir);
+                    for (File file : dirFiles) {
+                        boolean uploaded = ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newDir + "/" + file.getName());
+                        System.out.println(file.getName() + " uploaded: " + uploaded);
 
-                    if (dirCreated) {
-                        System.out.println("Dir " + newDir + " created!");
-                        System.out.println("\n||==========||Upload status||==========||\n");
-                        int uploadCount = 0;
-
-                        for (File file : dirFiles) {
-                            boolean uploaded = ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newDir + "/" + file.getName());
-                            System.out.println(file.getName() + " uploaded: " + uploaded);
-
-                            if (uploaded) uploadCount++;
-                        }
-
-                        System.out.println("\nUPLOADED FILES: " + uploadCount);
+                        if (uploaded) uploadCount++;
                     }
-                }
-            } while (!dirCreated);
 
-        } else {
-            System.out.println("Empty directory, nothing uploaded...");
-        }
+                    System.out.println("\nUPLOADED FILES: " + uploadCount);
+                }
+            }
+        } while (!dirCreated);
+
+
     }
 
 
