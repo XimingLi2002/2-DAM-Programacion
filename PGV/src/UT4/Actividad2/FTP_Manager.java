@@ -88,24 +88,14 @@ public class FTP_Manager {
         return fileList;
     }
 
-    protected static void printFormater(int separation, String[] colums) {
-        for (int i = 0; i < colums.length - 1; i++) {
-            System.out.printf("%-" + separation + "s", colums[i]);
-        }
-        System.out.println(colums[colums.length - 1]);
-    }
-    public boolean makeDir(String pathName) {
-        try {
+
+    public boolean makeDir(String pathName) throws IOException {
             return ftpClient.makeDirectory(pathName);
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     public boolean uploadOneFile(String localPath,String destinationFilePath) {
         try {
             BufferedInputStream bi = new BufferedInputStream(new FileInputStream(localPath));
-
             return ftpClient.storeFile(destinationFilePath, bi);
         } catch (IOException e) {
             return false;
@@ -130,5 +120,12 @@ public class FTP_Manager {
         } catch (IOException e) {
             System.err.println("Disconnection failed!");
         }
+    }
+
+    protected static void printFormater(int separation, String[] colums) {
+        for (int i = 0; i < colums.length - 1; i++) {
+            System.out.printf("%-" + separation + "s", colums[i]);
+        }
+        System.out.println(colums[colums.length - 1]);
     }
 }

@@ -19,35 +19,33 @@ public class Main implements ConsoleColors {
     private static final String password = "pgv";
     private final static FTP_Manager ftpManager = new FTP_Manager();
     private final static Scanner scanner = new Scanner(System.in);
+    private static ArrayList<File> dirFiles;
 
     public static void main(String[] args) throws SocketException, IOException {
         ftpManager.setConnection(FTP_SERVER);
         ftpManager.setLogin(username, password);
         do {
             System.out.println("Choose an action to execute: (Enter the text between '[' y ']')");
-            System.out.println("[0] Mostrar todos los ficheros de un directorio, incluido los subdirectorios que contenga");
-            System.out.println("[1] Subir un directorio local al servidor");
+            System.out.println("[1] Upload all files (including files in subdirectories) from a local directory to the server");
             switch (scanner.nextLine()) {
-                case "1":
+                case "1" -> {
                     //Clear the arrayList
                     dirFiles = new ArrayList<>();
                     getDirAllFiles(getLocalDir());
                     if (!dirFiles.isEmpty()) {
                         upload();
                     } else {
-                        System.out.println("Empty directory, nothing uploaded...");
+                        System.out.println("Could not upload files due to empty directory...");
                     }
-                    break;
-                case "2":
+                }
+                case "2" -> {
                     System.out.print(BOLD);
                     printFormater(60, new String[]{"Nombre", "Tipo", "Tama\u00f1o", "Ruta"}); //'\u00f1' = ñ -> Para que se muestra la ñ en consola
                     System.out.print(RESET);
-                    ftpManager.getAllFiles("").forEach((a, it) -> printFormater(60, new String[]{it.getName(), "Archivo", String.valueOf(it.getSize()), a}));
-
+                    ftpManager.getAllFiles("").forEach((path, file) -> printFormater(60, new String[]{file.getName(), "Archivo", String.valueOf(file.getSize()), path}));
                     ftpManager.downloadOneFile("C:\\Users\\ikill\\Documents\\2-DAM-Programacion\\PGV\\src\\UT4\\Actividad2\\", scanner.nextLine());
-                    break;
-                default:
-                    System.err.println("No se ha encontrado");
+                }
+                default -> System.err.println("No se ha encontrado");
             }
 
         } while (!ftpManager.isConnected());
@@ -55,28 +53,7 @@ public class Main implements ConsoleColors {
 
     }
 
-    private static File getLocalDir() {
-        File dir;
-        boolean checkDirExists;
-        do {
-            System.out.println("Input a local directory absolute path: ");
-            dir = new File(scanner.nextLine());
-            checkDirExists = checkDirExists(dir);
-            if (checkDirExists) {
-                System.out.println("Received!");
-            } else {
-                System.out.println("The directory does not exist! Try Again");
-            }
-        } while (!checkDirExists);
-        return dir;
-    }
-
-    private static boolean checkDirExists(File file) {
-        return (file.isDirectory() && file.isAbsolute() && file.exists());
-    }
-
-    private static ArrayList<File> dirFiles;
-
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     private static void getDirAllFiles(File dir) {
         for (File file : Objects.requireNonNull(dir.listFiles())) {
             if (file.isDirectory()) {
@@ -87,34 +64,44 @@ public class Main implements ConsoleColors {
         }
     }
 
-    private static void upload() {
-        boolean dirCreated = false;
+    private static File getLocalDir() {
+        boolean dirExists;
+        File dir;
+        System.out.println("Input a local directory absolute path: ");
         do {
-            System.out.println("\nEnter a new remote directory name/path (Ex: dir2 | dir2/subdir2 ): ");
-            String newDir = scanner.nextLine();
-
-            if (!newDir.equals("")) {
-                dirCreated = ftpManager.makeDir(newDir);
-
-                if (dirCreated) {
-                    System.out.println("Dir " + newDir + " created!");
-                    System.out.println("\n||==========||Upload status||==========||\n");
-                    int uploadCount = 0;
-
-                    for (File file : dirFiles) {
-                        boolean uploaded = ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newDir + "/" + file.getName());
-                        System.out.println(file.getName() + " uploaded: " + uploaded);
-
-                        if (uploaded) uploadCount++;
-                    }
-
-                    System.out.println("\nUPLOADED FILES: " + uploadCount);
-                }
-            }
-        } while (!dirCreated);
-
-
+            dir = new File(scanner.nextLine());
+            dirExists = checkDirExists(dir);
+            if (!dirExists) System.out.println("The directory does not exist! Try Again");
+        } while (!dirExists);
+        System.out.println("Received!");
+        return dir;
     }
 
+    private static boolean checkDirExists(File file) {
+        return (file.isDirectory() && file.isAbsolute() && file.exists());
+    }
 
+    private static void upload() throws IOException {
+        boolean dirCreated = false;
+        do {
+            System.out.println("Enter a new remote directory path: ");
+            String newServerDir = scanner.nextLine();
+
+            if (!newServerDir.isEmpty() || !newServerDir.isBlank()) {
+                dirCreated = ftpManager.makeDir(newServerDir);
+
+                if (dirCreated) {
+                    System.out.println("Directory creation successful!, uploading...");
+                    for (File file : dirFiles) {
+                        printFormater(50, new String[]{file.getName(),
+                                String.valueOf(ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newServerDir + "/" + file.getName()))});
+                    }
+                }else {
+                    System.out.println("Directory creation failed because duplicated or missing permissions!");
+                }
+            }else{
+                System.out.println("Directory creation failed, the name cannot be empty!");
+            }
+        } while (!dirCreated);
+    }
 }
