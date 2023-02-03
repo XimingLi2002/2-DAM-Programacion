@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.SocketException;
 
 public class ClientFTP {
-    private static final String FTP_SERVER = "192.168.192.75";
+    private static final String FTP_SERVER = "192.168.10.1";
     private static final String username = "pgv";
     private static final String password = "pgv";
     public static void main(String[] args) throws SocketException, IOException {
@@ -44,7 +44,8 @@ public class ClientFTP {
 
         //To download files, we indicate the name with which we recorded it locally
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream("./src/UT4/FTPTest.pdf"));
-        if (client.retrieveFile(files[files.length-1].getName(), bufferedOutputStream)){
+        System.out.println(files[files.length-2].getName());
+        if (client.retrieveFile(files[files.length-2].getName(), bufferedOutputStream)){
             System.out.println("File recovered");
         }else {
             System.out.println("Download failed");

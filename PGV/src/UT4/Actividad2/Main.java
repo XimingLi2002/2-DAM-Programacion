@@ -1,5 +1,7 @@
 package UT4.Actividad2;
 
+import org.apache.commons.net.ftp.FTPFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketException;
@@ -22,11 +24,12 @@ public class Main implements ConsoleColors {
     private static ArrayList<File> dirFiles;
 
     public static void main(String[] args) throws SocketException, IOException {
-        ftpManager.setConnection(FTP_SERVER);
-        ftpManager.setLogin(username, password);
+        ftpManager.setConnection(FTP_SERVER, username, password);
+        ftpManager.checkConnection();
         do {
             System.out.println("Choose an action to execute: (Enter the text between '[' y ']')");
             System.out.println("[1] Upload all files (including files in subdirectories) from a local directory to the server");
+            System.out.println("[2] Download file");
             switch (scanner.nextLine()) {
                 case "1" -> {
                     //Clear the arrayList
@@ -39,11 +42,14 @@ public class Main implements ConsoleColors {
                     }
                 }
                 case "2" -> {
+                    //TODO error al descargar archivos que aparecen con 0kb (vacio)
                     System.out.print(BOLD);
-                    printFormater(60, new String[]{"Nombre", "Tipo", "Tama\u00f1o", "Ruta"}); //'\u00f1' = ñ -> Para que se muestra la ñ en consola
+                    printFormater(40, new String[]{"Nombre", "Tipo", "Tama\u00f1o", "Ruta"}); //'\u00f1' = ñ -> Para que se muestra la ñ en consola
                     System.out.print(RESET);
-                    ftpManager.getAllFiles("").forEach((path, file) -> printFormater(60, new String[]{file.getName(), "Archivo", String.valueOf(file.getSize()), path}));
-                    ftpManager.downloadOneFile("C:\\Users\\ikill\\Documents\\2-DAM-Programacion\\PGV\\src\\UT4\\Actividad2\\", scanner.nextLine());
+                    ftpManager.getAllFiles("").forEach((path, file) -> printFormater(40, new String[]{file.getName(), "Archivo", String.valueOf(file.getSize()), path}));
+                    System.out.print("Name of the file to download: ");
+                    boolean downloaded = ftpManager.downloadOneFile("C:\\Users\\ikill\\Documents\\2-DAM-Programacion\\PGV\\src\\UT4\\Actividad2", scanner.nextLine());
+                    System.out.println(downloaded);
                 }
                 default -> System.err.println("No se ha encontrado");
             }
@@ -82,26 +88,13 @@ public class Main implements ConsoleColors {
     }
 
     private static void upload() throws IOException {
-        boolean dirCreated = false;
-        do {
-            System.out.println("Enter a new remote directory path: ");
-            String newServerDir = scanner.nextLine();
+        System.out.println("Enter a remote directory path: ");
+        String newServerDir = scanner.nextLine();
 
-            if (!newServerDir.isEmpty() || !newServerDir.isBlank()) {
-                dirCreated = ftpManager.makeDir(newServerDir);
-
-                if (dirCreated) {
-                    System.out.println("Directory creation successful!, uploading...");
-                    for (File file : dirFiles) {
-                        printFormater(50, new String[]{file.getName(),
-                                String.valueOf(ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newServerDir + "/" + file.getName()))});
-                    }
-                }else {
-                    System.out.println("Directory creation failed because duplicated or missing permissions!");
-                }
-            }else{
-                System.out.println("Directory creation failed, the name cannot be empty!");
-            }
-        } while (!dirCreated);
+        System.out.println("Uploading...");
+        for (File file : dirFiles) {
+            printFormater(50, new String[]{file.getName(),
+                    String.valueOf(ftpManager.uploadOneFile(file.getAbsolutePath(), "./" + newServerDir + "/" + file.getName()))});
+        }
     }
 }

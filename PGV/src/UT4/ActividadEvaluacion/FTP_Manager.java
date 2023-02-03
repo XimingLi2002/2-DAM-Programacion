@@ -1,4 +1,4 @@
-package UT4.Actividad2;
+package UT4.ActividadEvaluacion;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -64,6 +64,7 @@ public class FTP_Manager {
     }
 
     private HashMap<String, FTPFile> fileList = new HashMap<>();
+    private Integer countAllDirectories = 0;
     private static ArrayList<String> directories = new ArrayList<>();
 
     protected HashMap<String, FTPFile> getAllFiles(String path) throws IOException {
@@ -76,6 +77,7 @@ public class FTP_Manager {
                  */
                 if (file.isDirectory()) {
                     directories.add(path + "/" + file.getName());
+                    countAllDirectories++;
                 } else {
                     fileList.put(path + "/"+file.getName(),file);
                 }
@@ -87,6 +89,12 @@ public class FTP_Manager {
             }
         } while (!directories.isEmpty());
         return fileList;
+    }
+    protected void resetCountAllDirectories(){
+        countAllDirectories = 0;
+    }
+    protected Integer getCountAllDirectories(){
+        return countAllDirectories;
     }
 
 
@@ -106,8 +114,6 @@ public class FTP_Manager {
     public boolean downloadOneFile(String destinationLocalPath,String remoteFilePath) {
         try {
             BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destinationLocalPath+"/"+remoteFilePath.split("/")[remoteFilePath.split("/").length-1]));
-            System.out.println(destinationLocalPath+"/"+remoteFilePath.split("/")[remoteFilePath.split("/").length-1]);
-            System.out.println(remoteFilePath);
             return ftpClient.retrieveFile(remoteFilePath, bo);
         } catch (IOException e) {
             return false;
